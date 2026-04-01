@@ -1,29 +1,24 @@
-import sqlite3 from 'sqlite3';
-import { promisify } from 'util';
+import { createPool } from '@vercel/postgres';
 
-const db = new sqlite3.Database('./contacts.db');
+const db = createPool();
 
-// Promisify the run method
-db.runPromise = promisify(db.run).bind(db);
-
-db.serialize(() => {
-  db.run(`
-    CREATE TABLE IF NOT EXISTS contacts (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT,
-      email TEXT,
-      phone TEXT,
-      message TEXT,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
-
-  // Migration: Add phone column to existing tables
-  db.run("ALTER TABLE contacts ADD COLUMN phone TEXT", (err) => {
-    if (err) {
-      // Column likely already exists, ignore error
-    }
-  });
-});
+// Initialization function to ensure the table exists
+export async function initDb() {
+  try {
+    await db.sql`
+      CREATE TABLE IF NOT EXISTS contacts (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        phone TEXT NOT NULL,
+        message TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `;
+    console.log('Database initialized successfully');
+  } catch (error) {
+    console.error('Error initializing database:', error);
+  }
+}
 
 export default db;

@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
-import db from '@/lib/db';
+import db, { initDb } from '@/lib/db';
 import nodemailer from 'nodemailer';
 
 export async function POST(request) {
   try {
+    // Ensure table exists (runs once per cold start)
+    await initDb();
+
     const { name, email, phone, message } = await request.json();
 
     if (!name || !email || !phone || !message) {
@@ -11,10 +14,11 @@ export async function POST(request) {
     }
 
     // 1. Save to Database (Reliability Backup)
-    await db.runPromise(
-      'INSERT INTO contacts (name, email, phone, message) VALUES (?, ?, ?, ?)',
+    await db.query(
+      'INSERT INTO contacts (name, email, phone, message) VALUES ($1, $2, $3, $4)',
       [name, email, phone, message]
     );
+
 
     // 2. Trigger Email Notification (Instant Alert)
     const transporter = nodemailer.createTransport({
