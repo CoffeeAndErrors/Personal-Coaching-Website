@@ -1,9 +1,24 @@
 import { createPool } from '@vercel/postgres';
 
-const db = createPool();
+// Use a lazy-loaded pool to prevent build-time connection errors on Vercel
+let pool;
+
+const getPool = () => {
+  if (!pool) {
+    // Only create the pool if the connection string exists
+    if (!process.env.POSTGRES_URL) {
+      console.warn('POSTGRES_URL is missing. Database operations will fail.');
+    }
+    pool = createPool();
+  }
+  return pool;
+};
 
 // Initialization function to ensure the table exists
 export async function initDb() {
+  const db = getPool();
+  if (!process.env.POSTGRES_URL) return;
+
   try {
     await db.sql`
       CREATE TABLE IF NOT EXISTS contacts (
@@ -21,4 +36,5 @@ export async function initDb() {
   }
 }
 
-export default db;
+// Export the pool getter for runtime use
+export default getPool;

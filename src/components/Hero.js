@@ -17,9 +17,6 @@ export default function Hero() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <div className="flex items-center gap-4 mb-6">
-          <span className="text-orange-500 font-bold tracking-widest text-xs uppercase">LiftingMonk's Premium Coaching</span>
-        </div>
 
         <h1 className="text-7xl md:text-6xl font-bold leading-[0.9] tracking-tighter uppercase mb-8">
           Discipline Over Motivation <br />

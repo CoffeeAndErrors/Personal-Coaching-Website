@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
-import db, { initDb } from '@/lib/db';
+import getPool, { initDb } from '@/lib/db';
 import nodemailer from 'nodemailer';
 
 export async function POST(request) {
   try {
+    const db = getPool();
     // Ensure table exists (runs once per cold start)
     await initDb();
 
@@ -18,6 +19,7 @@ export async function POST(request) {
       'INSERT INTO contacts (name, email, phone, message) VALUES ($1, $2, $3, $4)',
       [name, email, phone, message]
     );
+
 
 
     // 2. Trigger Email Notification (Instant Alert)

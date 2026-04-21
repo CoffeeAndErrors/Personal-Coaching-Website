@@ -5,12 +5,11 @@ import Image from 'next/image';
 
 export default function Gallery() {
   const images = [
-    '/gallery1.jpg',
-    '/gallery5.jpg',
+    '/gallery9.jpg',
     '/gallery6.jpg',
     '/gallery8.jpg',
-    '/gallery9.jpg',
-    '/gallery10.jpg',
+    '/gallery1.jpg',
+    '/gallery5.jpg',
   ];
 
 
@@ -24,7 +23,7 @@ export default function Gallery() {
       <motion.div 
         className="flex gap-6 w-max"
         animate={{ 
-          x: ["0%", "-20%"] 
+          x: ["0%", "-50%"] 
         }}
         transition={{ 
           duration: 30, 
