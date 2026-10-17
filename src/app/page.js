@@ -1,94 +1,203 @@
-import Navbar from '@/components/Navbar';
-import Hero from '@/components/Hero';
-import About from '@/components/About';
-import Gallery from '@/components/Gallery';
-import PlanCard from '@/components/PlanCard';
-import ContactForm from '@/components/ContactForm';
+import Image from 'next/image';
+import Link from 'next/link';
+import Button from '@/components/Button';
+import ContactSection from '@/components/ContactSection';
+import { TransformationFrame } from '@/components/GalleryGrid';
+import { ImageReveal, MaskLine, Parallax, Reveal } from '@/components/motion';
+import { BENEFITS, GALLERY, STATS } from '@/lib/content';
+import Eyebrow from '@/components/Eyebrow';
+
+export const metadata = {
+  title: { absolute: 'LIFTINGMONK | Premium Online Fitness Coaching' },
+  alternates: { canonical: '/' },
+};
+
+const WRAP = 'mx-auto w-full max-w-[90rem] px-6 sm:px-10 lg:px-16';
+
+function Hero() {
+  return (
+    <section className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#65b9e8_0%,#a6d8f1_45%,#bde3f5_75%,#f7f3e9_100%)]">
+      <div className={`${WRAP} grid items-center gap-12 pb-24 pt-32 lg:min-h-[56rem] lg:grid-cols-12 lg:gap-8 lg:pb-28 lg:pt-36`}>
+        <div className="lg:col-span-7">
+          <Eyebrow>Online fitness coaching</Eyebrow>
+
+          <h1 className="font-display text-[clamp(2.9rem,8.2vw,6rem)] font-semibold uppercase leading-[0.92] tracking-[-0.015em]">
+            <MaskLine onLoad delay={0.1}>Discipline</MaskLine>
+            <MaskLine onLoad delay={0.2}><span className="accent text-ink/55">over</span></MaskLine>
+            <MaskLine onLoad delay={0.3}>motivation.</MaskLine>
+          </h1>
+
+          <Reveal onLoad delay={0.55} className="mt-8 max-w-md text-lg leading-relaxed text-ink/80">
+            Science-based, structured and sustainable coaching. When your habits change, your body follows.
+          </Reveal>
+
+          <Reveal onLoad delay={0.7} className="mt-10 flex flex-wrap gap-3">
+            <Button href="/plans" variant="ink">Explore Coaching</Button>
+            <Button href="/transformations" variant="ghost" arrow={false}>View Transformations</Button>
+          </Reveal>
+
+          <Reveal onLoad delay={0.85} className="mt-14 flex gap-10">
+            {STATS.slice(0, 2).map((s) => (
+              <div key={s.label}>
+                <p className="font-display text-4xl font-semibold tracking-tight">{s.value}</p>
+                <p className="label mt-1 text-ink-soft">{s.label}</p>
+              </div>
+            ))}
+          </Reveal>
+        </div>
+
+        <div className="relative lg:col-span-5">
+          <ImageReveal onLoad delay={0.2} className="relative aspect-[4/5] overflow-hidden bg-ink lg:aspect-auto lg:h-[44rem]">
+            <Parallax className="absolute inset-0" amount={5}>
+              <Image
+                src="/coach.jpg"
+                alt="Coach Amritangshu Mahapatra in the gym, arms crossed and smiling"
+                fill
+                preload
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                className="object-cover object-[45%_30%]"
+              />
+            </Parallax>
+          </ImageReveal>
+
+          <Reveal onLoad delay={1} className="absolute -bottom-5 left-4 bg-soft px-5 py-4 shadow-xl sm:left-8 lg:-left-16">
+            <p className="label text-ink-soft">The standard</p>
+            <p className="mt-1 font-display text-xl font-semibold leading-tight tracking-tight">
+              Consistency
+              <br />
+              over everything.
+            </p>
+          </Reveal>
+        </div>
+      </div>
+
+      <div aria-hidden="true" className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-ink lg:flex">
+        <span className="label">Scroll</span>
+        <span className="cue relative block h-10 w-px overflow-hidden bg-ink/20" />
+      </div>
+    </section>
+  );
+}
+
+function Intro() {
+  return (
+    <section className={`${WRAP} py-24 lg:py-36`}>
+      <div className="grid gap-14 lg:grid-cols-12">
+        <div className="lg:col-span-7">
+          <Reveal>
+            <Eyebrow index="01" className="mb-6">The coach</Eyebrow>
+            <h2 className="font-display text-3xl font-semibold leading-[1.08] tracking-[-0.02em] sm:text-5xl">
+              No shortcuts. No motivation dependency. Just habits, structure and execution, every single day.
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1} className="mt-8 max-w-xl text-lg leading-relaxed text-ink-soft">
+            <p>
+              With over 10 years of experience in the fitness industry, Amritangshu Mahapatra helps people unlock their
+              full potential. The approach is science-based, results-driven, and designed for those who demand discipline
+              over temporary motivation.
+            </p>
+            <div className="mt-8">
+              <Button href="/about" variant="ghost">Meet the coach</Button>
+            </div>
+          </Reveal>
+        </div>
+
+        <ImageReveal className="relative aspect-square overflow-hidden lg:col-span-4 lg:col-start-9">
+          <Parallax className="absolute inset-0" amount={4}>
+            <Image
+              src="/transformation.jpg"
+              alt="Transformation journey: before on a beach, after in the gym"
+              fill
+              sizes="(min-width: 1024px) 30vw, 100vw"
+              className="object-cover"
+            />
+          </Parallax>
+        </ImageReveal>
+      </div>
+
+      <dl className="mt-20 grid grid-cols-2 border-t border-ink/15 lg:grid-cols-4">
+        {STATS.map((s, i) => (
+          <Reveal key={s.label} delay={i * 0.06} className="flex flex-col border-b border-ink/15 py-8 pr-4 lg:border-b-0">
+            <dt className="label order-2 mt-2 text-ink-soft">{s.label}</dt>
+            <dd className="order-1 font-display text-5xl font-semibold tracking-[-0.025em] sm:text-6xl">{s.value}</dd>
+          </Reveal>
+        ))}
+      </dl>
+    </section>
+  );
+}
+
+function Preview() {
+  const shots = GALLERY.slice(0, 3);
+  return (
+    <section className="bg-powder py-24 lg:py-36">
+      <div className={WRAP}>
+        <div className="mb-16 flex flex-wrap items-end justify-between gap-6">
+          <Reveal>
+            <Eyebrow index="02" className="mb-5">Transformations</Eyebrow>
+            <h2 className="font-display text-4xl font-semibold leading-[0.95] tracking-[-0.025em] sm:text-7xl">
+              The work,
+              <br />
+              in <span className="accent">photographs.</span>
+            </h2>
+          </Reveal>
+          <Button href="/transformations" variant="ink">See all transformations</Button>
+        </div>
+
+        <div className="grid gap-6 sm:grid-cols-3 lg:gap-8">
+          {shots.map((img, i) => (
+            <ImageReveal key={img.id} delay={i * 0.1}>
+              <Link href="/transformations" aria-label={`${img.alt}. See all transformations`} className="group block">
+                <TransformationFrame item={img} sizes="(min-width: 640px) 30vw, 100vw" />
+              </Link>
+            </ImageReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Benefits() {
+  return (
+    <section className={`${WRAP} grid gap-14 py-24 lg:grid-cols-12 lg:py-36`}>
+      <div className="lg:col-span-4">
+        <div className="lg:sticky lg:top-28">
+          <Reveal>
+            <Eyebrow index="03" className="mb-5">Inside the coaching</Eyebrow>
+            <h2 className="font-display text-4xl font-semibold leading-[0.95] tracking-[-0.025em] sm:text-6xl">
+              Built to keep you <span className="accent">consistent.</span>
+            </h2>
+            <div className="mt-8">
+              <Button href="/plans" variant="ink">View coaching plans</Button>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+
+      <ol className="lg:col-span-7 lg:col-start-6">
+        {BENEFITS.map((b, i) => (
+          <Reveal key={b.title} as="li" className="grid grid-cols-[3.5rem_1fr] gap-4 border-t border-ink/15 py-8">
+            <span className="font-display text-sm font-medium text-ink-soft">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">{b.title}</h3>
+              <p className="mt-2 max-w-md text-ink-soft">{b.text}</p>
+            </div>
+          </Reveal>
+        ))}
+      </ol>
+    </section>
+  );
+}
 
 export default function Home() {
   return (
     <>
-      <Navbar />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <section id="home">
-          <Hero />
-        </section>
-
-        <About />
-
-        <section id="gallery" className="py-20 border-t border-gray-800">
-          <h2 className="text-4xl font-bold mb-10 text-center tracking-tighter uppercase">
-            Transformation <span className="text-orange-500 underline decoration-2 underline-offset-8">Gallery</span>
-          </h2>
-          <Gallery />
-        </section>
-
-        <section id="plans" className="py-20 border-t border-gray-900">
-          <h2 className="text-6xl md:text-7xl font-black mb-16 text-center tracking-tighter uppercase leading-none">
-            Coaching <span className="text-orange-500">Pillars</span>
-          </h2>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-            <PlanCard 
-              title="Personalized Training Plan" 
-              description="Structured workouts based on your goal and lifestyle." 
-              icon={<svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>}
-            />
-            <PlanCard 
-              title="Simple Nutrition Plan" 
-              description="No extreme dieting — just practical eating you can follow daily." 
-              icon={<svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>}
-            />
-            <PlanCard 
-              title="Habit & Discipline Coaching" 
-              description="Build routines that keep you consistent even on bad days." 
-              icon={<svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>}
-            />
-            <PlanCard 
-              title="Weekly Check-ins" 
-              description="Track progress and make smart adjustments." 
-              icon={<svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>}
-            />
-            <PlanCard 
-              title="1:1 Consultation Calls" 
-              description="Fix your mistakes and get clarity instantly." 
-              icon={<svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>}
-            />
-            <PlanCard 
-              title="Daily Accountability Support" 
-              description="Stay on track. No excuses." 
-              icon={<svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>}
-            />
-          </div>
-
-          <div className="flex justify-center">
-            <a 
-              href="https://calendly.com/liftingmonkfitness/consulation-call" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-4 bg-orange-500 hover:bg-orange-600 text-white font-black py-6 px-16 text-xl uppercase tracking-widest transition-all shadow-2xl shadow-orange-500/20 active:scale-95"
-            >
-              Book Free Consultation
-              <svg 
-                className="w-6 h-6 transition-transform group-hover:translate-x-2" 
-                fill="none" stroke="currentColor" viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </a>
-          </div>
-        </section>
-
-        <section id="contact" className="py-20 border-t border-gray-800 pb-40">
-          <div className="max-w-xl mx-auto">
-            <h2 className="text-4xl font-bold mb-10 text-center tracking-tighter uppercase">
-              Start Your <span className="text-orange-500 underline decoration-2 underline-offset-8">Journey</span>
-            </h2>
-            <ContactForm />
-          </div>
-        </section>
-      </main>
+      <Hero />
+      <Intro />
+      <Preview />
+      <Benefits />
+      <ContactSection />
     </>
   );
 }

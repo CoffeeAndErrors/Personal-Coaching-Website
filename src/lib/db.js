@@ -1,25 +1,17 @@
 import { createPool } from '@vercel/postgres';
 
-// Use a lazy-loaded pool to prevent build-time connection errors on Vercel
+// Lazy pool: avoids build-time connection errors on Vercel.
 let pool;
+let ready;
 
-const getPool = () => {
-  if (!pool) {
-    // Only create the pool if the connection string exists
-    if (!process.env.POSTGRES_URL) {
-      console.warn('POSTGRES_URL is missing. Database operations will fail.');
-    }
-    pool = createPool();
-  }
-  return pool;
-};
+function getPool() {
+  if (!process.env.POSTGRES_URL) throw new Error('POSTGRES_URL is not configured');
+  return (pool ??= createPool());
+}
 
-// Initialization function to ensure the table exists
-export async function initDb() {
-  const db = getPool();
-  if (!process.env.POSTGRES_URL) return;
-
-  try {
+// Table is created once per server instance; a failed attempt is retried next time.
+function init(db) {
+  return (ready ??= (async () => {
     await db.sql`
       CREATE TABLE IF NOT EXISTS contacts (
         id SERIAL PRIMARY KEY,
@@ -30,11 +22,18 @@ export async function initDb() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `;
-    console.log('Database initialized successfully');
-  } catch (error) {
-    console.error('Error initializing database:', error);
-  }
+    await db.sql`ALTER TABLE contacts ADD COLUMN IF NOT EXISTS plan TEXT`;
+  })().catch((err) => {
+    ready = undefined;
+    throw err;
+  }));
 }
 
-// Export the pool getter for runtime use
-export default getPool;
+export async function saveContact({ name, email, phone, message, plan }) {
+  const db = getPool();
+  await init(db);
+  await db.query(
+    'INSERT INTO contacts (name, email, phone, message, plan) VALUES ($1, $2, $3, $4, $5)',
+    [name, email, phone, message, plan || null]
+  );
+}
