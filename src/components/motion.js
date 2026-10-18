@@ -54,16 +54,16 @@ export function ImageReveal({ children, className, delay = 0, onLoad = false }) 
 }
 
 // Gentle vertical drift of the child inside an overflow-hidden parent.
+// Reduced motion is switched off in CSS, so server and client render identical markup.
 export function Parallax({ children, amount = 6, className }) {
   const ref = useRef(null);
-  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
   const y = useTransform(scrollYProgress, [0, 1], [`-${amount}%`, `${amount}%`]);
   return (
     <div ref={ref} className={className}>
       <motion.div
-        className="relative h-full w-full"
-        style={reduce ? undefined : { y, scale: 1 + amount / 50 }}
+        className="relative h-full w-full motion-reduce:transform-none!"
+        style={{ y, scale: 1 + amount / 50 }}
       >
         {children}
       </motion.div>

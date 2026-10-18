@@ -2,10 +2,11 @@
 
 @theme inline {
   --color-cream: #f7f3e9;
-  --color-powder: #bde3f5;
-  --color-sky: #65b9e8;
-  --color-ink: #10251f;
-  --color-ink-soft: #46594f;
+  --color-canvas: #a2d8c9; /* outer frame, one step deeper than powder */
+  --color-powder: #b4e3d6; /* seafoam panels */
+  --color-sky: #159a82; /* sea green accent */
+  --color-ink: #0b201a;
+  --color-ink-soft: #3a4f47;
   --color-soft: #fffdf8;
   --color-citrus: #d9f454;
   --font-display: var(--font-display-face), ui-sans-serif, system-ui, sans-serif;
@@ -18,12 +19,13 @@
 }
 
 html {
+  position: relative; /* scroll container for framer-motion useScroll measurements */
   scroll-behavior: smooth;
   scroll-padding-top: 6rem;
 }
 
 body {
-  background: var(--color-powder);
+  background: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;

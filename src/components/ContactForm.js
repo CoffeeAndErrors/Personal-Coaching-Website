@@ -5,7 +5,7 @@ import { PLAN_OPTIONS, validateContact } from '@/lib/validate';
 import { LINKS } from '@/lib/content';
 
 const FIELD =
-  'w-full  border border-ink/20 bg-soft px-4 py-3.5 text-base outline-none transition-colors placeholder:text-ink/40 focus:border-ink aria-[invalid=true]:border-red-700';
+  'w-full border border-ink/20 bg-soft px-4 py-3.5 text-base outline-none transition-colors placeholder:text-ink/40 focus:border-ink aria-[invalid=true]:border-red-700';
 
 function Field({ id, label, error, children }) {
   return (

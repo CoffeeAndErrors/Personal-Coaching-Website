@@ -25,7 +25,7 @@ const PILLARS = [
 export default function About() {
   return (
     <>
-      <section className="bg-[linear-gradient(180deg,#bde3f5_0%,#f7f3e9_100%)]">
+      <section className="bg-[linear-gradient(180deg,#b4e3d6_0%,#f7f3e9_100%)]">
         <div className={`${WRAP} grid items-center gap-12 pb-20 pt-32 lg:grid-cols-12 lg:pb-28 lg:pt-40`}>
           <div className="lg:col-span-7">
             <Eyebrow>The person behind the results</Eyebrow>

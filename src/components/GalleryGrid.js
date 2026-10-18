@@ -5,14 +5,15 @@ import Image from 'next/image';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { EASE, ImageReveal } from './motion';
 
-const PILL = 'label pointer-events-none absolute bottom-3  bg-soft/90 px-3 py-1.5 text-[0.65rem] text-ink shadow-sm backdrop-blur-sm';
+const PILL = 'label pointer-events-none absolute bottom-3 bg-soft/90 px-3 py-1.5 text-[0.65rem] text-ink shadow-sm backdrop-blur-sm';
 
 /**
  * One transformation in a fixed square frame, so every card in a grid is identical in size:
  * a ready-made collage fills it, a [before, after] pair splits it in two. Before / After labels
  * sit on each half either way.
  */
-export function TransformationFrame({ item, sizes, className = '', zoom = true }) {
+export function TransformationFrame({ item, sizes, className = '', zoom = true, eager = false }) {
+  const loading = eager ? 'eager' : undefined; // above-the-fold card is the page's LCP
   const pair = item.photos.length > 1;
   return (
     <div className={`relative aspect-square w-full overflow-hidden bg-ink/5 ${className}`}>
@@ -20,15 +21,15 @@ export function TransformationFrame({ item, sizes, className = '', zoom = true }
         <div className="grid h-full grid-cols-2 gap-[3px] bg-soft">
           {item.photos.map((p) => (
             <div key={p.src} className="relative overflow-hidden">
-              <Image src={p.src} alt="" fill sizes={sizes} className={`object-cover ${zoom ? 'transition-transform duration-700 ease-out group-hover:scale-[1.03]' : ''}`} style={{ objectPosition: p.position || 'center' }} />
+              <Image src={p.src} alt="" fill sizes={sizes} loading={loading} className={`object-cover ${zoom ? 'transition-transform duration-700 ease-out group-hover:scale-[1.03]' : ''}`} style={{ objectPosition: p.position || 'center' }} />
             </div>
           ))}
         </div>
       ) : (
         // Ready-made collages carry a thin white border of their own; a slight overscan trims it so
-        // every card meets its  edge the same way.
+        // every card meets its edge the same way.
         <div className="absolute -inset-[1.5%]">
-          <Image src={item.photos[0].src} alt="" fill sizes={sizes} className={`object-cover ${zoom ? 'transition-transform duration-700 ease-out group-hover:scale-[1.03]' : ''}`} style={{ objectPosition: item.photos[0].position || 'center' }} />
+          <Image src={item.photos[0].src} alt="" fill sizes={sizes} loading={loading} className={`object-cover ${zoom ? 'transition-transform duration-700 ease-out group-hover:scale-[1.03]' : ''}`} style={{ objectPosition: item.photos[0].position || 'center' }} />
         </div>
       )}
       <span className={`${PILL} left-3`}>Before</span>
@@ -74,7 +75,7 @@ function Lightbox({ images, index, onClose, onStep }) {
 
   const img = images[index];
   const btn =
-    'grid h-12 w-12 place-items-center  bg-cream/10 text-cream transition-colors hover:bg-citrus hover:text-ink';
+    'grid h-12 w-12 place-items-center bg-cream/10 text-cream transition-colors hover:bg-citrus hover:text-ink';
 
   return (
     <motion.div
@@ -178,7 +179,7 @@ export default function GalleryGrid({ images }) {
               aria-label={`Open full size: ${img.alt}`}
               className="group relative block w-full cursor-zoom-in"
             >
-              <TransformationFrame item={img} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw" />
+              <TransformationFrame item={img} eager={i < 3} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw" />
               <span className="label absolute right-4 top-4 -translate-y-1 bg-soft px-4 py-2 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
                 View
               </span>
