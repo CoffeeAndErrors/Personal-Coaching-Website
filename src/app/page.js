@@ -16,7 +16,7 @@ const WRAP = 'mx-auto w-full max-w-[90rem] px-6 sm:px-10 lg:px-16';
 
 function Hero() {
   return (
-    <section className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#65b9e8_0%,#a6d8f1_45%,#bde3f5_75%,#f7f3e9_100%)]">
+    <section className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#4fc3a9_0%,#8ed8c4_45%,#b4e3d6_75%,#f7f3e9_100%)]">
       <div className={`${WRAP} grid items-center gap-12 pb-24 pt-32 lg:min-h-[56rem] lg:grid-cols-12 lg:gap-8 lg:pb-28 lg:pt-36`}>
         <div className="lg:col-span-7">
           <Eyebrow>Online fitness coaching</Eyebrow>

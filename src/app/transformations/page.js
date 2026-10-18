@@ -13,7 +13,7 @@ export const metadata = {
 export default function Transformations() {
   return (
     <>
-      <section className="bg-[linear-gradient(180deg,#bde3f5_0%,#f7f3e9_100%)]">
+      <section className="bg-[linear-gradient(180deg,#b4e3d6_0%,#f7f3e9_100%)]">
         <div className="mx-auto w-full max-w-[90rem] px-6 pb-16 pt-32 sm:px-10 lg:px-16 lg:pb-24 lg:pt-40">
           <Eyebrow>Transformation gallery</Eyebrow>
           <h1 className="font-display text-[clamp(2.9rem,9vw,7rem)] font-semibold leading-[0.92] tracking-[-0.03em]">

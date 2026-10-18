@@ -9,7 +9,7 @@ import { EASE } from './motion';
 
 // Frosted pill: warm translucent fill, a bright top edge and one soft drop shadow.
 const GLASS =
-  'rounded-full border border-white/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_1px_2px_rgba(16,37,31,0.06),0_18px_44px_-18px_rgba(16,37,31,0.38)] backdrop-blur-2xl backdrop-saturate-150';
+  'rounded-full border border-white/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_1px_2px_rgba(11,32,26,0.06),0_18px_44px_-18px_rgba(11,32,26,0.38)] backdrop-blur-2xl backdrop-saturate-150';
 
 function Arrow({ className = '' }) {
   return (
@@ -74,7 +74,7 @@ export default function Navbar() {
                   <motion.span
                     layoutId="nav-pill"
                     transition={spring}
-                    className="absolute inset-0 rounded-full bg-ink shadow-[0_6px_16px_-8px_rgba(16,37,31,0.6)]"
+                    className="absolute inset-0 rounded-full bg-ink shadow-[0_6px_16px_-8px_rgba(11,32,26,0.6)]"
                   />
                 )}
                 <Link
@@ -96,7 +96,7 @@ export default function Navbar() {
             href={LINKS.enroll}
             target="_blank"
             rel="noopener noreferrer"
-            className="group hidden h-11 items-center gap-3 rounded-full bg-ink pl-5 pr-1.5 text-[14px] font-semibold tracking-[-0.01em] text-cream shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] transition-colors duration-300 hover:bg-[#1b3a31] md:inline-flex"
+            className="group hidden h-11 items-center gap-3 rounded-full bg-ink pl-5 pr-1.5 text-[14px] font-semibold tracking-[-0.01em] text-cream shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] transition-colors duration-300 hover:bg-[#173a30] md:inline-flex"
           >
             Get Started
             <span className="grid h-8 w-8 place-items-center rounded-full bg-citrus text-ink">
@@ -127,7 +127,7 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={reduce ? { opacity: 0, transition: { duration: 0 } } : { opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.35, ease: EASE }}
-              className="absolute inset-x-0 top-full mt-2 origin-top rounded-[28px] border border-white/80 bg-soft p-2 shadow-[0_24px_60px_-20px_rgba(16,37,31,0.45)] md:hidden"
+              className="absolute inset-x-0 top-full mt-2 origin-top rounded-[28px] border border-white/80 bg-soft p-2 shadow-[0_24px_60px_-20px_rgba(11,32,26,0.45)] md:hidden"
             >
               <ul>
                 {NAV.map(({ href, label }, i) => {
